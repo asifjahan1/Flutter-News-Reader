@@ -11,6 +11,8 @@ import 'package:newspaper_app/screen/search_page.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+enum NewsEvent { fetchNews }
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -39,8 +41,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> checkConnectivity() async {
     var connectivityResult = await Connectivity().checkConnectivity();
     setState(() {
-      isOnline = (connectivityResult == ConnectivityResult.none)
-          ? false : true;
+      isOnline = (connectivityResult == ConnectivityResult.none) ? false : true;
     });
   }
 
@@ -58,7 +59,6 @@ class _HomePageState extends State<HomePage> {
     prefs.setStringList('cached_articles', articles);
   }
 
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                     PageTransition(
                         duration: const Duration(seconds: 1),
                         type: PageTransitionType.bottomToTop,
-                        child: const SearchPage(),
+                        child: SearchPage(),
                         inheritTheme: true,
                         ctx: context),
                   );
@@ -92,8 +92,8 @@ class _HomePageState extends State<HomePage> {
           ),
           centerTitle: true,
         ),
-        body: isOnline ?
-        Container(
+        body: isOnline
+            ? Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(colors: [
               Colors.orange,
@@ -105,187 +105,189 @@ class _HomePageState extends State<HomePage> {
               Colors.lime,
               Colors.amber,
               Colors.orange
-            ]
-
-            ),
+            ]),
           ),
-            padding: const EdgeInsets.all(15),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    height: 60,
-                    color: Colors.transparent,
-                    child: Row(
-                      children: [
-                        ElevatedButton(
-                            onPressed: () {
-                              if (pageNo > 1) {
-                                pageNo--;
+          padding: const EdgeInsets.all(15),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  height: 60,
+                  color: Colors.transparent,
+                  child: Row(
+                    children: [
+                      ElevatedButton(
+                          onPressed: () {
+                            if (pageNo > 1) {
+                              pageNo--;
+                              setState(() {});
+                            }
+                          },
+                          child: Text(
+                            'PREV',
+                            style: GoogleFonts.roboto(),
+                          )),
+                      Flexible(
+                        child: Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceAround,
+                          children: List.generate(
+                            7,
+                                (index) => GestureDetector(
+                              onTap: () {
+                                pageNo = (index + 1);
                                 setState(() {});
-                              }
-                            },
-                            child: Text(
-                              'PREV',
-                              style: GoogleFonts.roboto(),
-                            )),
-                        Flexible(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: List.generate(
-                                  7,
-                                      (index) => GestureDetector(
-                                      onTap: () {
-                                        pageNo = (index + 1);
-                                        setState(() {});
-                                      },
-                                      child: Container(
-                                        padding: EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: index == pageNo - 1
-                                                  ? Colors.orange
-                                                  : Colors.black,
-                                            ),
-                                            borderRadius:
-                                            BorderRadius.circular(10)),
-                                        child: Text(
-                                          (index + 1).toString(),
-                                          style: GoogleFonts.nunito(
-                                            fontSize: index == pageNo - 1 ? 20 : 12,
-                                            color: index == pageNo - 1
-                                                ? Colors.orange
-                                                : Colors.black,
-                                          ),
-                                        ),
-                                      ),
-                                      ),
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: index == pageNo - 1
+                                          ? Colors.orange
+                                          : Colors.black,
+                                    ),
+                                    borderRadius:
+                                    BorderRadius.circular(10)),
+                                child: Text(
+                                  (index + 1).toString(),
+                                  style: GoogleFonts.nunito(
+                                    fontSize:
+                                    index == pageNo - 1 ? 20 : 12,
+                                    color: index == pageNo - 1
+                                        ? Colors.orange
+                                        : Colors.black,
+                                  ),
+                                ),
                               ),
                             ),
+                          ),
                         ),
-                        ElevatedButton(
-                            onPressed: () {
-                              if (pageNo <10) {
-                                pageNo++;
-                                setState(() {});
-                              }
-                            },
-                            child: Text(
-                              'NEXT',
-                              style: GoogleFonts.roboto(),
-                            )),
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            if (pageNo < 10) {
+                              pageNo++;
+                              setState(() {});
+                            }
+                          },
+                          child: Text(
+                            'NEXT',
+                            style: GoogleFonts.roboto(),
+                          )),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    height: 40,
+                    // color: Color.fromARGB(255, 165, 156, 71),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Select category',
+                          style: myStyle(30, Colors.deepPurple),
+                        ),
+                        Container(
+                          width: 120,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 3,
+                              ),
+                              borderRadius: BorderRadius.circular(14)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(7.0),
+                            child: DropdownButton<String>(
+                              value: sortBy,
+                              icon: const Icon(Icons.arrow_downward),
+                              elevation: 15,
+                              style: const TextStyle(
+                                  color: Colors.deepPurple),
+                              onChanged: (String? value) {
+                                setState(() {
+                                  sortBy = value!;
+                                });
+                              },
+                              items: list.map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: 40,
-                      // color: Color.fromARGB(255, 165, 156, 71),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Select category',
-                            style: myStyle(30, Colors.deepPurple),
-                          ),
-                          Container(
-                            width: 120,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 3,
-                                ),
-                                borderRadius: BorderRadius.circular(14)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(7.0),
-                              child: DropdownButton<String>(
-                                value: sortBy,
-                                icon: const Icon(Icons.arrow_downward),
-                                elevation: 15,
-                                style:
-                                const TextStyle(color: Colors.deepPurple),
-                                onChanged: (String? value) {
-                                  setState(() {
-                                    sortBy = value!;
-                                  });
-                                },
-                                items: list.map<DropdownMenuItem<String>>(
-                                        (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  FutureBuilder<List<Articles>>(
-                    future: CustomHttp()
-                        .fetchAllNewsData(pageNo: pageNo, sortBy: sortBy),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text('Network error!');
-                      } else if (snapshot.data == null) {
-                        return Text('No data found!');
-                      }
-
-                      return ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: snapshot.data!.length,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => NewsDetailScreen(
-                                    newsTitle: '${snapshot.data![index].title}',
-                                    newsContent: '${snapshot.data![index].description}',
-                                    imageUrl: '${snapshot.data![index].urlToImage}',
-
-                                    index: index,
-
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.only(
-                                top: 10,
-                              ),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
-                                  color: Color.fromARGB(255, 102, 102, 101),
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: ListTile(
-                                leading: Image.network('${snapshot.data![index].urlToImage}'),
-                                title: Text(
-                                  '${snapshot.data![index].title}',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                subtitle: Text('${snapshot.data![index].description}'),
-                              ),
-                            ),
-                          );
-                        },
+                ),
+                FutureBuilder<List<Articles>>(
+                  future: CustomHttp()
+                      .fetchAllNewsData(pageNo: pageNo, sortBy: sortBy),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(),
                       );
+                    } else if (snapshot.hasError) {
+                      return Text('Network error!');
+                    } else if (snapshot.data == null) {
+                      return Text('No data found!');
+                    }
 
+                    return ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data!.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => NewsDetailScreen(
+                                  newsTitle:
+                                  '${snapshot.data![index].title}',
+                                  newsContent:
+                                  '${snapshot.data![index].description}',
+                                  imageUrl:
+                                  '${snapshot.data![index].urlToImage}',
+                                  index: index,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(
+                              top: 10,
+                            ),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 1,
+                                color: Color.fromARGB(255, 102, 102, 101),
+                              ),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: ListTile(
+                              leading: Image.network(
+                                  '${snapshot.data![index].urlToImage}'),
+                              title: Text(
+                                '${snapshot.data![index].title}',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              subtitle: Text(
+                                  '${snapshot.data![index].description}'),
+                            ),
+                          ),
+                        );
+                      },
+                    );
 
-
-
-                      /*
+                    /*
                         ListView.builder(
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: snapshot.data!.length,
@@ -319,22 +321,22 @@ class _HomePageState extends State<HomePage> {
                           });
 
                       */
-
-
-                    },
-                  )
-                ],
-              ),
+                  },
+                )
+              ],
             ),
-
+          ),
         )
-              : const Center(
-                  child: Text('You are offline',
-                    style: TextStyle(fontSize: 30, color: Colors.red, fontWeight: FontWeight.bold),
-                ),
-              ),
+            : const Center(
+          child: Text(
+            'You are offline',
+            style: TextStyle(
+                fontSize: 30,
+                color: Colors.red,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
       ),
     );
   }
 }
-
