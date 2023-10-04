@@ -29,8 +29,10 @@ Offline Reading: Articles are available for offline reading, allowing users to a
 4. Monetization
 (i) Challenge: Generating revenue while maintaining a free news service.
 (ii) Solution: Integrated non-intrusive advertisements and offered premium subscription options with ad-free access and exclusive content.
-Overcoming Challenges
-We overcame these challenges through a combination of technological solutions, continuous testing, and user feedback. Regular updates and improvements have been made to enhance the app's performance and user experience.
+
+Overcoming Challenges:
+
+I overcame these challenges through a combination of technological solutions, continuous testing, and user feedback. Regular updates and improvements have been made to enhance the app's performance and user experience.
 
 ## Getting Started
 
