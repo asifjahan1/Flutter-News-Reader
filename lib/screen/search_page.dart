@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 // ignore: depend_on_referenced_packages
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:newspaper_app/screen/news_details.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -77,12 +78,12 @@ class _SearchPageState extends State<SearchPage> {
                         hintStyle: TextStyle(color: Colors.grey),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
-                              const BorderSide(width: 3, color: Colors.orange),
+                              const BorderSide(width: 2, color: Colors.grey),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide:
-                              const BorderSide(width: 4, color: Colors.orange),
+                              const BorderSide(width: 2, color: Colors.orange),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         suffixIcon: IconButton(
@@ -92,7 +93,9 @@ class _SearchPageState extends State<SearchPage> {
 
                               setState(() {});
                             },
-                            icon: Icon(Icons.close))),
+                            icon: Icon(Icons.close),
+                        ),
+                    ),
                     onEditingComplete: () async {
                       searchList = await CustomHttp()
                           .fetchSearchData(query: searchController.text);
@@ -105,38 +108,43 @@ class _SearchPageState extends State<SearchPage> {
                   height: 15,
                 ),
                 searchList.isEmpty
-                    ? Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: SizedBox(
-                          height: 100,
-                          child: MasonryGridView.count(
-                            crossAxisCount: 4,
-                            mainAxisSpacing: 20,
-                            itemCount: searchKeyword.length,
-                            crossAxisSpacing: 4,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                child: InkWell(
-                                  onTap: () async {
-                                    setState(() {
-                                      isloading = true;
-                                    });
-                                    searchController.text =
-                                        searchKeyword[index];
-                                    searchList = await CustomHttp()
-                                        .fetchSearchData(
-                                            query: searchKeyword[index]);
-                                    setState(() {
-                                      isloading = false;
-                                    });
-                                  },
-                                  child: Text("${searchKeyword[index]}"),
-                                ),
-                              );
-                            },
+                    ? Column(
+                      children: [
+                        Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: SizedBox(
+                              height: 100,
+                              child: MasonryGridView.count(
+                                crossAxisCount: 4,
+                                mainAxisSpacing: 20,
+                                itemCount: searchKeyword.length,
+                                crossAxisSpacing: 4,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                    //decoration: BoxDecoration(),
+                                    child: InkWell(
+                                      onTap: () async {
+                                        setState(() {
+                                          isloading = true;
+                                        });
+                                        searchController.text =
+                                            searchKeyword[index];
+                                        searchList = await CustomHttp()
+                                            .fetchSearchData(
+                                                query: searchKeyword[index]);
+                                        setState(() {
+                                          isloading = false;
+                                        });
+                                      },
+                                      child: Text("${searchKeyword[index]}"),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
                           ),
-                        ),
-                      )
+                      ],
+                    )
                     : SizedBox(
                         height: 0,
                       ),
@@ -145,7 +153,27 @@ class _SearchPageState extends State<SearchPage> {
                   shrinkWrap: true,
                   itemCount: searchList.length,
                   itemBuilder: (context, index) {
-                    return Container(
+                    return GestureDetector(
+                      onTap: () {
+                        // Navigate to the NewsDetailScreen when a news item is clicked
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => NewsDetailScreen(
+                              newsTitle: "${searchList[index].title}",
+                              newsContent: "${searchList[index].description}",
+                              imageUrl: "${searchList[index].urlToImage}",
+                              publishedAt: "${searchList[index].publishedAt}",
+                              //url: "${searchList[index].url}",
+                              index: index,
+                            ),
+                          ),
+                        );
+                      },
+
+
+
+                      /*
                       margin: EdgeInsets.only(top: 10),
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -153,19 +181,28 @@ class _SearchPageState extends State<SearchPage> {
                             color: Color.fromARGB(255, 102, 102, 101)),
                         borderRadius: BorderRadius.circular(8),
                       ),
+                      */
+                      child: Container(
+                      margin: EdgeInsets.only(top: 10),
+                      decoration: BoxDecoration(
+                      border: Border.all(
+                      width: 1,
+                      color: Color.fromARGB(255, 102, 102, 101)),
+                      borderRadius: BorderRadius.circular(8),
+                      ),
                       child: Container(
                         decoration: const BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              Colors.orange,
-                              Colors.amber,
-                              Colors.lime,
-                              //Colors.lightGreen,
-                              Colors.amber,
-                              //Colors.lightGreen,
-                              Colors.lime,
-                              Colors.amber,
-                              Colors.orange
+                              //Colors.orange,
+                              //Colors.amber,
+                              //Colors.lime,
+                              Colors.white,
+                              //Colors.amber,
+                              Colors.white,
+                              //Colors.lime,
+                              //Colors.amber,
+                              //Colors.orange
                             ],
                             //begin: Alignment.topCenter,
                             //end: Alignment.bottomCenter,
@@ -180,6 +217,7 @@ class _SearchPageState extends State<SearchPage> {
                             style: myStyle(14, Colors.black54),
                           ),
                         ),
+                      ),
                       ),
                     );
                   },

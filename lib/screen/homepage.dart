@@ -10,6 +10,7 @@ import 'package:newspaper_app/screen/news_details.dart';
 import 'package:newspaper_app/screen/search_page.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 enum NewsEvent { fetchNews }
 
@@ -49,9 +50,12 @@ class _HomePageState extends State<HomePage> {
     final prefs = await SharedPreferences.getInstance();
     final cachedArticles = prefs.getStringList('cached_articles') ?? [];
 
+    /*
     setState(() {
       var newsArticles = cachedArticles;
     });
+
+     */
   }
 
   Future<void> cacheArticles(List<String> articles) async {
@@ -64,6 +68,7 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          shadowColor: Colors.black54,
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 10),
@@ -81,11 +86,11 @@ class _HomePageState extends State<HomePage> {
                 },
                 icon: Icon(Icons.search),
                 iconSize: 35,
-                color: Colors.black,
+                color: Colors.white,
               ),
             )
           ],
-          backgroundColor: Color.fromARGB(255, 230, 181, 35),
+          backgroundColor: Colors.lightGreen,
           title: Text(
             'News Reader',
             style: myStyle(30, Colors.black, FontWeight.bold),
@@ -95,17 +100,22 @@ class _HomePageState extends State<HomePage> {
         body: isOnline
             ? Container(
           decoration: const BoxDecoration(
+            color: Colors.white,
+
             gradient: LinearGradient(colors: [
-              Colors.orange,
-              Colors.amber,
-              Colors.lime,
+              //Colors.white,
+              //Colors.amber,
+              //Colors.lime,
+              Colors.white,
+              Colors.white,
+              ////Colors.amber,
               //Colors.lightGreen,
-              Colors.amber,
-              //Colors.lightGreen,
-              Colors.lime,
-              Colors.amber,
-              Colors.orange
-            ]),
+              //Colors.lime,
+              //Colors.amber,
+              //Colors.orange
+            ],
+
+            ),
           ),
           padding: const EdgeInsets.all(15),
           child: SingleChildScrollView(
@@ -128,40 +138,43 @@ class _HomePageState extends State<HomePage> {
                             style: GoogleFonts.roboto(),
                           )),
                       Flexible(
-                        child: Row(
-                          mainAxisAlignment:
-                          MainAxisAlignment.spaceAround,
-                          children: List.generate(
-                            7,
-                                (index) => GestureDetector(
-                              onTap: () {
-                                pageNo = (index + 1);
-                                setState(() {});
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
+                          child: Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceAround,
+                            children: List.generate(
+                              7,
+                                  (index) => GestureDetector(
+                                onTap: () {
+                                  pageNo = (index + 1);
+                                  setState(() {});
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.withOpacity(0.1),
+                                      border: Border.all(
+                                        color: index == pageNo - 1
+                                            ? Colors.blueGrey
+                                            : Colors.black,
+                                      ),
+                                      borderRadius:
+                                      BorderRadius.circular(10)),
+                                  child: Text(
+                                    (index + 1).toString(),
+                                    style: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize:
+                                      index == pageNo - 1 ? 20 : 12,
                                       color: index == pageNo - 1
-                                          ? Colors.orange
+                                          ? Colors.red
                                           : Colors.black,
                                     ),
-                                    borderRadius:
-                                    BorderRadius.circular(10)),
-                                child: Text(
-                                  (index + 1).toString(),
-                                  style: GoogleFonts.nunito(
-                                    fontSize:
-                                    index == pageNo - 1 ? 20 : 12,
-                                    color: index == pageNo - 1
-                                        ? Colors.orange
-                                        : Colors.black,
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
+
                       ),
                       ElevatedButton(
                           onPressed: () {
@@ -186,24 +199,26 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Select category',
+                          'Select Category',
                           style: myStyle(30, Colors.deepPurple),
                         ),
                         Container(
                           width: 120,
                           decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.3),
                               border: Border.all(
-                                width: 3,
+                                width: 2,
                               ),
                               borderRadius: BorderRadius.circular(14)),
                           child: Padding(
                             padding: const EdgeInsets.all(7.0),
                             child: DropdownButton<String>(
                               value: sortBy,
-                              icon: const Icon(Icons.arrow_downward),
+                              icon: const Icon(Icons.arrow_drop_down_circle_outlined),
                               elevation: 15,
                               style: const TextStyle(
-                                  color: Colors.deepPurple),
+                                fontWeight: FontWeight.bold,
+                                  color: Colors.red),
                               onChanged: (String? value) {
                                 setState(() {
                                   sortBy = value!;
@@ -233,7 +248,7 @@ class _HomePageState extends State<HomePage> {
                         child: CircularProgressIndicator(),
                       );
                     } else if (snapshot.hasError) {
-                      return Text('Network error!');
+                      return Text('Waiting for network!', style: TextStyle(color: Colors.grey.withOpacity(0.9), fontWeight: FontWeight.bold ));
                     } else if (snapshot.data == null) {
                       return Text('No data found!');
                     }
@@ -255,6 +270,7 @@ class _HomePageState extends State<HomePage> {
                                   '${snapshot.data![index].description}',
                                   imageUrl:
                                   '${snapshot.data![index].urlToImage}',
+                                  publishedAt: '${snapshot.data![index].publishedAt}',
                                   index: index,
                                 ),
                               ),
