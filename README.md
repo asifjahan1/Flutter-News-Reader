@@ -9,7 +9,7 @@ The News Reader App is a digital platform designed to provide users with easy ac
 
 User Interface (UI)
 
-Clean and Intuitive Design: We prioritize a clutter-free UI with a user-friendly navigation system.
+Clean and Intuitive Design: I prioritize a clutter-free UI with a user-friendly navigation system.
 Personalization: Users can customize their news feed based on their interests and preferences.
 Responsive Design: The app is optimized for mobile devices, ensuring a consistent experience.
 Content Delivery
@@ -32,7 +32,7 @@ Offline Reading: Articles are available for offline reading, allowing users to a
 
 Overcoming Challenges:
 
-I overcame these challenges through a combination of technological solutions, continuous testing, and user feedback. Regular updates and improvements have been made to enhance the app's performance and user experience.
+Using Bloc state management, I overcame these challenges through a combination of technological solutions, continuous testing, and user feedback. Regular updates and improvements have been made to enhance the app's performance and user experience.
 
 ## Getting Started
 
