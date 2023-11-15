@@ -74,27 +74,27 @@ class _SearchPageState extends State<SearchPage> {
                     focusNode: focusNode,
                     controller: searchController,
                     decoration: InputDecoration(
-                        hintText: 'Search...',
-                        hintStyle: TextStyle(color: Colors.grey),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(width: 2, color: Colors.grey),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(width: 2, color: Colors.orange),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        suffixIcon: IconButton(
-                            onPressed: () {
-                              searchList = [];
-                              searchController.clear();
+                      hintText: 'Search...',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(width: 2, color: Colors.grey),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(width: 2, color: Colors.orange),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          searchList = [];
+                          searchController.clear();
 
-                              setState(() {});
-                            },
-                            icon: Icon(Icons.close),
-                        ),
+                          setState(() {});
+                        },
+                        icon: Icon(Icons.close),
+                      ),
                     ),
                     onEditingComplete: () async {
                       searchList = await CustomHttp()
@@ -109,8 +109,8 @@ class _SearchPageState extends State<SearchPage> {
                 ),
                 searchList.isEmpty
                     ? Column(
-                      children: [
-                        Padding(
+                        children: [
+                          Padding(
                             padding: const EdgeInsets.all(12.0),
                             child: SizedBox(
                               height: 100,
@@ -143,8 +143,8 @@ class _SearchPageState extends State<SearchPage> {
                               ),
                             ),
                           ),
-                      ],
-                    )
+                        ],
+                      )
                     : SizedBox(
                         height: 0,
                       ),
@@ -160,18 +160,19 @@ class _SearchPageState extends State<SearchPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => NewsDetailScreen(
-                              newsTitle: "${searchList[index].title}",
-                              newsContent: "${searchList[index].description}",
-                              imageUrl: "${searchList[index].urlToImage}",
+                              author: '${searchList[index].author}',
+                              title: "${searchList[index].title}",
+                              description: "${searchList[index].description}",
+                              urlToImage: "${searchList[index].urlToImage}",
+                              content: "${searchList[index].content}",
                               publishedAt: "${searchList[index].publishedAt}",
+                              url: "${searchList[index].url}",
                               //url: "${searchList[index].url}",
                               index: index,
                             ),
                           ),
                         );
                       },
-
-
 
                       /*
                       margin: EdgeInsets.only(top: 10),
@@ -183,41 +184,43 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                       */
                       child: Container(
-                      margin: EdgeInsets.only(top: 10),
-                      decoration: BoxDecoration(
-                      border: Border.all(
-                      width: 1,
-                      color: Color.fromARGB(255, 102, 102, 101)),
-                      borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              //Colors.orange,
-                              //Colors.amber,
-                              //Colors.lime,
-                              Colors.white,
-                              //Colors.amber,
-                              Colors.white,
-                              //Colors.lime,
-                              //Colors.amber,
-                              //Colors.orange
-                            ],
-                            //begin: Alignment.topCenter,
-                            //end: Alignment.bottomCenter,
+                        margin: EdgeInsets.only(top: 10),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 1,
+                              color: Color.fromARGB(255, 102, 102, 101)),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                //Colors.orange,
+                                //Colors.amber,
+                                //Colors.lime,
+                                Colors.white,
+                                //Colors.amber,
+                                Colors.white,
+                                //Colors.lime,
+                                //Colors.amber,
+                                //Colors.orange
+                              ],
+                              //begin: Alignment.topCenter,
+                              //end: Alignment.bottomCenter,
+                            ),
+                          ),
+                          child: ListTile(
+                            leading: Image.network(
+                              "${searchList[index].urlToImage}",
+                              fit: BoxFit.cover,
+                            ),
+                            title: Text("${searchList[index].title}"),
+                            subtitle: Text(
+                              "${searchList[index].description}",
+                              style: myStyle(14, Colors.black54),
+                            ),
                           ),
                         ),
-                        child: ListTile(
-                          leading:
-                              Image.network("${searchList[index].urlToImage}"),
-                          title: Text("${searchList[index].title}"),
-                          subtitle: Text(
-                            "${searchList[index].description}",
-                            style: myStyle(14, Colors.black54),
-                          ),
-                        ),
-                      ),
                       ),
                     );
                   },

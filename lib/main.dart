@@ -18,12 +18,12 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.blue, // Define the primary color
         hintColor: Colors.orange, // Define the accent color
         fontFamily: 'Roboto', // Define the default font family
-        textTheme: const TextTheme(
-          headline6: TextStyle(
+        textTheme: TextTheme(
+          titleLarge: TextStyle(
             fontSize: 20.0, // Define a default font size for headlines
             fontWeight: FontWeight.bold, // Define the default font weight
           ),
-          bodyText2: TextStyle(
+          bodyMedium: TextStyle(
             fontSize: 16.0, // Define a default font size for body text
             color: Colors.black, // Define the default text color
           ),
