@@ -2,7 +2,9 @@
 
 [Flutter News Reader](https://github.com/asifjahan1/Flutter-News-Reader/tree/master)
 
-![ezgif com-video-to-gif (2)](https://github.com/asifjahan1/Flutter-News-Reader/assets/54774661/db1a4d0f-8c6b-4f67-b62c-c2c3e977617d)
+<div align="center">
+<img width="27%" src="https://github.com/asifjahan1/Flutter-News-Reader/assets/54774661/db1a4d0f-8c6b-4f67-b62c-c2c3e977617d">
+</div>
 
 # Design Overview
 The News Reader App is a digital platform designed to provide users with easy access to the latest news and articles from various sources. The app aims to deliver a seamless and engaging news-reading experience. Here's an overview of our design decisions:
