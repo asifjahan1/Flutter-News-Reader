@@ -2,7 +2,7 @@
 
 | [Flutter News Reader](https://github.com/asifjahan1/Flutter-News-Reader/tree/master) |
 |-------|
-|<div align="center"><img width="27%" src="https://github.com/asifjahan1/Flutter-News-Reader/assets/54774661/d4b76962-2382-4f5f-8923-81767b51f212" width="200"></div>|
+|<div align="center"><img src="https://github.com/asifjahan1/Flutter-News-Reader/assets/54774661/d4b76962-2382-4f5f-8923-81767b51f212" width="200"></div>|
 
 # Screenshots
 
