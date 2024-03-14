@@ -1,16 +1,14 @@
 # Flutter News Reader
 
-[Flutter News Reader](https://github.com/asifjahan1/Flutter-News-Reader/tree/master)
-
-<div align="center">
-<img width="27%" src="https://github.com/asifjahan1/Flutter-News-Reader/assets/54774661/d4b76962-2382-4f5f-8923-81767b51f212">
-</div>
+| [Flutter News Reader](https://github.com/asifjahan1/Flutter-News-Reader/tree/master) |
+|-------|
+|<div align="center"><img width="27%" src="https://github.com/asifjahan1/Flutter-News-Reader/assets/54774661/d4b76962-2382-4f5f-8923-81767b51f212" width="200"></div>|
 
 # Screenshots
 
-<div align="center">
-<img width="19%" src="https://github.com/asifjahan1/Flutter-News-Reader/assets/54774661/2d396cad-77df-4961-81d8-7b122fec598c"> <img width="19%" src="https://github.com/asifjahan1/Flutter-News-Reader/assets/54774661/a456a5cf-e1b6-4a3e-aee9-9cb9e3c922de"> <img width="19%" src="https://github.com/asifjahan1/Flutter-News-Reader/assets/54774661/c053d82d-fe84-4369-8dcd-bd18e635a5e1"> <img width="19%" src="https://github.com/asifjahan1/Flutter-News-Reader/assets/54774661/07bc89d3-f534-4e9d-a9fd-f2845f1a0f67">
-</div>
+| Popularity Page | PublishedAt Page | News Details Page | Search Page |
+|------|-------|-------|-------|
+|<img src="https://github.com/asifjahan1/Flutter-News-Reader/assets/54774661/2d396cad-77df-4961-81d8-7b122fec598c" width="250">|<img src="https://github.com/asifjahan1/Flutter-News-Reader/assets/54774661/a456a5cf-e1b6-4a3e-aee9-9cb9e3c922de" width="250">|<img src="https://github.com/asifjahan1/Flutter-News-Reader/assets/54774661/c053d82d-fe84-4369-8dcd-bd18e635a5e1" width="250">|<img src="https://github.com/asifjahan1/Flutter-News-Reader/assets/54774661/07bc89d3-f534-4e9d-a9fd-f2845f1a0f67" width="250">|
 
 # Design Overview
 The News Reader App is a digital platform designed to provide users with easy access to the latest news and articles from various sources. The app aims to deliver a seamless and engaging news-reading experience. Here's an overview of our design decisions:
